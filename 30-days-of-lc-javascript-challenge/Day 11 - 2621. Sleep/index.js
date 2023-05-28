@@ -13,3 +13,26 @@ async function sleep(millis) {
  */
 
 // [2621. Sleep](https://leetcode.com/problems/sleep/description/?utm_campaign=PostD11&utm_medium=Post&utm_source=Post&gio_link_id=5Rp2Wmzo)
+
+/* NOTE */
+
+const callback = (resolve, reject) => {
+  setTimeout(() => {
+    // 丟確保的未來值給 resolve 的 callback
+    resolve('success');
+  }, 1000);
+};
+
+// callback 透過 parameter 可以拿到未來值
+new Promise(callback).then(data => console.log(data));
+
+// async/await 讓程式碼看起來就像是同步執行（但還是非同步的！）
+const callback2 = async () => {
+  // await 會確保在 「async 函式內」該行結束才會繼續執行，並且會自動解析 Promise 內的 value 是什麼
+  const data = await new Promise(resolve => {
+    setTimeout(() => resolve('success'), 1000);
+  });
+  console.log(data, '[2]');
+};
+
+callback2();
